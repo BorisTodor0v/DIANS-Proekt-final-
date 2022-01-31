@@ -1,0 +1,89 @@
+﻿@model IEnumerable<DIANS.Models.restaurant>
+@{
+    ViewBag.Title = "Restaurants";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>
+    <link rel="stylesheet" href="~/Scripts/map/leaflet.css" />
+
+
+</head>
+<body>
+
+
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.name)</th>
+                <th>@Html.DisplayNameFor(model => model.cuisine)</th>
+                <th>@Html.DisplayNameFor(model => model.opening_hours)</th>
+                <th> @Html.DisplayNameFor(model => model.takeaway)</th>
+                <th> @Html.DisplayNameFor(model => model.phone)</th>
+                <th>@Html.DisplayNameFor(model => model.website)</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.cuisine)</td>
+                    <td>@Html.DisplayFor(modelItem => item.opening_hours)</td>
+                    <td>@Html.DisplayFor(modelItem => item.takeaway)</td>
+                    <td>@Html.DisplayFor(modelItem => item.phone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.website)</td>
+                    <td><button class="button" onclick="funkcija(@Html.DisplayFor(modelItem => item.lon),@Html.DisplayFor(modelItem => item.lat))">Location</button></td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+    </br>
+    </br>
+    </br>
+    </br>
+    <div id="map" style="width: 1150px; height: 580px"></div>
+    <script src="~/Scripts/map/leaflet.js"></script>
+    <script>
+        // Creating map options
+
+        function funkcija(lon, lat) {
+            let marker = new L.Marker([lat, lon]);
+            marker.addTo(map);
+
+        }
+        var mapOptions = {
+            center: [42.0001541, 21.4167030],
+            zoom: 8
+        }
+
+        // Creating a map object
+        var map = new L.map('map', mapOptions);
+
+        // Creating a Layer object
+        var layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+        // Adding layer to the map
+        map.addLayer(layer);
+
+    </script>
+
+
+</body>
+</html>
